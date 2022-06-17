@@ -1,0 +1,15 @@
+.idea/
+.DS_Store
+target/
+.log
+
+
+src/main/java/cz/cvut/fel/sit/battleship/GameInterface/MainWindow.java
+src/main/java/cz/cvut/fel/sit/battleship/GameInterface/Scenes/MainMenuScene.java
+src/main/java/cz/cvut/fel/sit/battleship/GameInterface/Scenes/SceneManager.java
+src/main/java/cz/cvut/fel/sit/battleship/GameInterface/Scenes/SettingsMenuViewController.java
+src/main/java/cz/cvut/fel/sit/battleship/GameInterface/Scenes/SetupShipsViewController.java
+src/main/java/cz/cvut/fel/sit/battleship/GameInterface/Scenes/Elements/BattleShipCanvas.java
+src/main/resources/styles/main.css
+src/main/resources/views/settings-menu-view.fxml
+src/main/resources/views/setup-ships-view.fxml

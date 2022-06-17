@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xml>
+    <standardMode>
+        <standardBoardSideSize>10</standardBoardSideSize>
+        <standardShipArraySize>10</standardShipArraySize>
+        <standardShipsArray>
+            <ship name="standardShip" >Battleship</ship>
+            <ship name="standardShip" >Cruiser</ship>
+            <ship name="standardShip" >Cruiser</ship>
+            <ship name="standardShip" >Destroyer</ship>
+            <ship name="standardShip" >Destroyer</ship>
+            <ship name="standardShip" >Destroyer</ship>
+            <ship name="standardShip" >Convoy</ship>
+            <ship name="standardShip" >Convoy</ship>
+            <ship name="standardShip" >Convoy</ship>
+            <ship name="standardShip" >Convoy</ship>
+        </standardShipsArray>
+    </standardMode>
+
+    <hardcoreMode>
+        <hardcoreBoardSideSize>12</hardcoreBoardSideSize>
+        <hardcoreShipArraySize>5</hardcoreShipArraySize>
+        <hardcoreShipsArray>
+            <ship name="hardcoreShip" >Convoy</ship>
+            <ship name="hardcoreShip" >Convoy</ship>
+            <ship name="hardcoreShip" >Convoy</ship>
+            <ship name="hardcoreShip" >Convoy</ship>
+            <ship name="hardcoreShip" >Convoy</ship>
+        </hardcoreShipsArray>
+    </hardcoreMode>
+
+    <babyMode>
+        <babyBoardSideSize>8</babyBoardSideSize>
+        <babyShipArraySize>3</babyShipArraySize>
+        <babyShipsArray>
+            <ship name="babyShip" >AircraftCarrier</ship>
+            <ship name="babyShip" >Cruiser</ship>
+            <ship name="babyShip" >Cruiser</ship>
+        </babyShipsArray>
+    </babyMode>
+
+    <customMode>
+        <customBoardSideSize>4</customBoardSideSize>
+        <customShipArraySize>1</customShipArraySize>
+        <customShipsArray>
+            <ship name = "customShip" >Convoy</ship>
+        </customShipsArray>
+    </customMode>
+</xml>
