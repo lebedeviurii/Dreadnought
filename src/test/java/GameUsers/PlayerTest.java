@@ -28,10 +28,10 @@ public class PlayerTest {
 
     @Test
     public void isFiredSquare_newBoardXIs1YIs1_RepeatedStrikeException() throws RepeatedStrikeException {
-        when(board.getPosition(1, 1)).thenReturn(square);
-        when(board.getPosition(1, 1).getStatus()).thenReturn(SquareStatus.Miss);
+        when(board.getSquare(1, 1)).thenReturn(square);
+        when(board.getSquare(1, 1).getStatus()).thenReturn(SquareStatus.Miss);
         doAnswer(invocationOnMock -> {
-            if (board.getPosition(1,1).getStatus() == SquareStatus.Miss) {
+            if (board.getSquare(1,1).getStatus() == SquareStatus.Miss) {
                 throw new RepeatedStrikeException();
             };
             return null;
@@ -55,9 +55,9 @@ public class PlayerTest {
                 }
                 return null;
             }
-        }).when(player).fire(board, player, position);
+        }).when(player).fire(player, position);
 
-        Assertions.assertEquals(player.fire(board, player, position), SquareStatus.BombedShip);
+        Assertions.assertEquals(player.fire(player, position), SquareStatus.BombedShip);
     }
 
     @Test
@@ -73,8 +73,8 @@ public class PlayerTest {
                 }
                 return null;
             }
-        }).when(player).fire(board, player, position);
+        }).when(player).fire(player, position);
 
-        Assertions.assertEquals(player.fire(board, player, position), SquareStatus.Miss);
+        Assertions.assertEquals(player.fire(player, position), SquareStatus.Miss);
     }
 }

@@ -14,7 +14,6 @@ public class NetworkGame {
 
     public Client client;
     public Server server;
-    private boolean clientOnly;
 
     public NetworkGame() {
     }
@@ -32,10 +31,8 @@ public class NetworkGame {
             if (!isServerRunning()) {
                 server = new Server(client, PORT_NUMBER);
                 startServerThenClient();
-                clientOnly = false;
             } else {
                 startClient();
-                clientOnly = true;
             }
         }
     }

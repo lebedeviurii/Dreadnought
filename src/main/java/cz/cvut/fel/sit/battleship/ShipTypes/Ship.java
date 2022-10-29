@@ -12,7 +12,7 @@ public abstract class Ship {
     private int size;
     private List<Square> shipPosition = new ArrayList<Square>();
     private Square fstSquare;
-    public boolean isAliveState;
+    private boolean isAliveState;
     public Orientation shipOrientation;
 
     public void setBoard(Board board) {
@@ -43,8 +43,12 @@ public abstract class Ship {
         return size;
     }
 
-    public Square getFstSquare() {
-        return fstSquare;
+    public String getFstSquare() {
+        if (fstSquare != null){
+            return fstSquare.cordToString();
+        } else {
+            return "none";
+        }
     }
 
     public boolean isAliveState() {
@@ -108,7 +112,7 @@ public abstract class Ship {
         switch (orientation){
             case horizontal:
                 for (int i = 0; i < size; i++) {
-                    Square square = board.getPosition(fstSquare.getX() + i, fstSquare.getY());
+                    Square square = board.getSquare(fstSquare.getX() + i, fstSquare.getY());
                     if (square != null && square.getStatus() == SquareStatus.Water){
                         res.add(square);
                     } else {
@@ -118,7 +122,7 @@ public abstract class Ship {
                 return res;
             case vertical:
                 for (int i = 0; i < size; i++) {
-                    Square square = board.getPosition(fstSquare.getX(), fstSquare.getY() + i);
+                    Square square = board.getSquare(fstSquare.getX(), fstSquare.getY() + i);
                     if (square != null && square.getStatus() == SquareStatus.Water){
                         res.add(square);
                     } else {
@@ -133,7 +137,7 @@ public abstract class Ship {
 
     public boolean isSquareIncluded(int x, int y) {
         for (Square square : shipPosition) {
-            if (board.getPosition(x, y) == square) {
+            if (board.getSquare(x, y) == square) {
                 return true;
             }
         }
@@ -166,14 +170,14 @@ public abstract class Ship {
             if (shipOrientation == Orientation.horizontal) {
                 if (board.getSideSize() > startX + size) {
                     for (int i = 0; i < size; i++)
-                        if (board.getPosition(startX + i, startY).getStatus() == SquareStatus.Ship || board.getPosition(startX + i, startY).getStatus() == SquareStatus.TooClose) {
+                        if (board.getSquare(startX + i, startY).getStatus() == SquareStatus.Ship || board.getSquare(startX + i, startY).getStatus() == SquareStatus.TooClose) {
                             throw new OverlapException();
                         }
                 }
             } else {
                 if (board.getSideSize() > startY + size) {
                     for (int i = 0; i < size; i++)
-                        if (board.getPosition(startX, startY + i).getStatus() == SquareStatus.Ship || board.getPosition(startX, startY + i).getStatus() == SquareStatus.TooClose) {
+                        if (board.getSquare(startX, startY + i).getStatus() == SquareStatus.Ship || board.getSquare(startX, startY + i).getStatus() == SquareStatus.TooClose) {
                             throw new OverlapException();
                         }
                 }

@@ -29,7 +29,7 @@ public class AI {
         for (int i = 0; i < aiShips.length; i++)
             do {
                 //set Board
-                aiShips[i].board = this.local.field;
+                aiShips[i].board = local.field;
                 aiShips[i].setAliveState(true);
                 //set Random Orientation
                 Random r = new Random();
@@ -38,17 +38,18 @@ public class AI {
 
                 aiShips[i].setOrientation(orientation);
                 if (orientation == Orientation.vertical) {
-                    target[0] = r.nextInt(this.local.field.sideSize);
+                    target[0] = r.nextInt(local.field.sideSize);
                     target[1] = checkPosition(aiShips[i].getSize(), local.field.sideSize);
                 } else {
                     target[0] = checkPosition(aiShips[i].getSize(), local.field.sideSize);
-                    target[1] = r.nextInt(this.local.field.sideSize);
+                    target[1] = r.nextInt(local.field.sideSize);
                 }
                 //set Random Position
-                aiShips[i].setFstSquare(this.local.field.getPosition(target[0], target[1]));
+                aiShips[i].setFstSquare(local.field.getSquare(target[0], target[1]));
 
 
             } while (!aiShips[i].placeShip());
+        local.readyToPlay = true;
     }
 
     private int checkPosition(int size, int boardSize) {
@@ -60,11 +61,10 @@ public class AI {
         ArrayList<Square> availableSquares = new ArrayList<>();
         for (int i = 0; i < enemyBoard.sideSize; i++) {
             for (int j = 0; j < enemyBoard.sideSize; j++) {
-                Square square = enemyBoard.getPosition(i, j);
+                Square square = enemyBoard.getSquare(i, j);
                 if (isValid(square)) availableSquares.add(square);
             }
         }
-
         while (!availableSquares.isEmpty()) {
             Square res = shootRandomSquare(availableSquares, enemy);
             availableSquares.remove(res);
@@ -102,7 +102,7 @@ public class AI {
         pos[0] = square.getX();
         pos[1] = square.getY();
 
-        local.fire(enemyBoard, enemy, pos);
+        local.fire(enemy, pos);
         return square;
     }
 }

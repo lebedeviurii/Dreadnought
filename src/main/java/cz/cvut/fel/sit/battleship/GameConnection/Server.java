@@ -91,22 +91,17 @@ public class Server implements Runnable{
     public void joining(String joinMsg, Connection author) {
         synchronized (connections) {
             for (Connection connection : connections){
-                //if (connection != author){
                     connection.sendToClient(ServerProtocol.MESSAGE, joinMsg);
-                //}
             }
         }
     }
 
     public void boardSetUp(String board, Connection author){
         synchronized (connections) {
-            if (boardCount < 2){
-                for (Connection connection : connections) {
-                    if (connection != author) {
-                        connection.sendToClient(ServerProtocol.PREPARED_OPPONENT, board);
-                    }
+            for (Connection connection : connections) {
+                if (connection != author) {
+                    connection.sendToClient(ServerProtocol.PREPARED_OPPONENT, board);
                 }
-                boardCount++;
             }
         }
     }
@@ -114,9 +109,9 @@ public class Server implements Runnable{
     public void finished(String finishMsg, Connection author) {
         synchronized (connections) {
             for (Connection connection : connections){
-                if (connection != author){
+                //if (connection != author){
                     connection.sendToClient(ServerProtocol.MESSAGE, finishMsg);
-                }
+                //}
             }
             connCount--;
         }

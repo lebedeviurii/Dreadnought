@@ -31,10 +31,16 @@ public class Square {
         return y;
     }
 
+    public int[] getPosition(){
+        return new int[]{x, y};
+    }
+
+    public String cordToString(){
+        return String.format("%d,%d",x,y);
+    }
     public String squareToString(){
         return String.format("%d,%d,%s:", x,y,status);
     }
-
 
     public ArrayList<Square> getAdjacentTiles(Board board) {
 
@@ -45,16 +51,16 @@ public class Square {
 
         //left-upper
         if (squareX - 1 >= 0 && squareY - 1 >= 0)
-            list.add(board.getPosition(squareX - 1, squareY - 1));
+            list.add(board.getSquare(squareX - 1, squareY - 1));
         //right-upper
         if (squareX + 1 < board.getSideSize() && squareY - 1 >= 0)
-            list.add(board.getPosition(squareX + 1, squareY - 1));
+            list.add(board.getSquare(squareX + 1, squareY - 1));
         //left-downer
         if (squareX - 1 >= 0 && squareY + 1 < board.getSideSize())
-            list.add(board.getPosition(squareX - 1, squareY + 1));
+            list.add(board.getSquare(squareX - 1, squareY + 1));
         //right-downer
         if (squareX + 1 < board.getSideSize() && squareY + 1 < board.getSideSize())
-            list.add(board.getPosition( squareX + 1, squareY + 1));
+            list.add(board.getSquare( squareX + 1, squareY + 1));
 
         return list;
     }
@@ -68,16 +74,16 @@ public class Square {
 
         //left
         if (squareX - 1 >= 0)
-            list.add(board.getPosition(squareX - 1, squareY));
+            list.add(board.getSquare(squareX - 1, squareY));
         //right
         if (squareX + 1 < board.getSideSize())
-            list.add(board.getPosition(squareX + 1, squareY));
+            list.add(board.getSquare(squareX + 1, squareY));
         //up
         if (squareY - 1 >= 0)
-            list.add(board.getPosition(squareX, squareY - 1));
+            list.add(board.getSquare(squareX, squareY - 1));
         //down
         if (squareY + 1 < board.getSideSize())
-            list.add(board.getPosition(squareX, squareY + 1));
+            list.add(board.getSquare(squareX, squareY + 1));
 
         return list;
     }

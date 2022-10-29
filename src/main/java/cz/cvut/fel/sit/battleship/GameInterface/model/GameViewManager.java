@@ -25,10 +25,9 @@ public class GameViewManager {
     private HBox gamePane;
     private Scene gameScene;
     private Stage stage;
-    private GameLogic gameLogic;
+    private GameLogic gameLogic = new GameLogic(this);
     private BattleShipCanvas player;
     private BattleShipCanvas enemy;
-
     private Label playerLabel;
     private Label enemyLabel;
 
@@ -42,6 +41,14 @@ public class GameViewManager {
         stage.show();
     }
 
+    public BattleShipCanvas getPlayer() {
+        return player;
+    }
+
+    public BattleShipCanvas getEnemy() {
+        return enemy;
+    }
+
     public GameLogic getGameLogic() {
         return gameLogic;
     }
@@ -52,14 +59,13 @@ public class GameViewManager {
         initializeStage();
         gamePane.setBackground(UIConstants.BASE_BACKGROUND);
         try {
-            gameLogic = new GameLogic(this);
             gameLogic.localStart(modeStr);
 
-            player.initializeWithPlayer(gameLogic.getPlayer(), gameLogic.getLocalEnemy(), gameLogic);
-            enemy.initializeWithPlayer(gameLogic.getLocalEnemy(), gameLogic.getPlayer(), gameLogic);
+            player.initializeWithPlayer(gameLogic.getPlayer(), gameLogic.getEnemy());
+            enemy.initializeWithPlayer(gameLogic.getEnemy(), gameLogic.getPlayer());
 
             playerLabel.setText(gameLogic.getPlayer().name);
-            enemyLabel.setText(gameLogic.getLocalEnemy().name);
+            enemyLabel.setText(gameLogic.getEnemy().name);
             gameInfo.setText("PLACE SHIPS");
 
         } catch (Exception exception) {
@@ -84,14 +90,14 @@ public class GameViewManager {
         playerLabel = new Label();
         Canvas playerCanvas = new Canvas(300, 300);
         playerBox.getChildren().addAll(playerCanvas, playerLabel);
-        player = new BattleShipCanvas(playerCanvas, 10);
+        player = new BattleShipCanvas(playerCanvas, 10, gameLogic);
 
         VBox enemyBox = new VBox();
         enemyBox.setAlignment(Pos.CENTER);
         enemyLabel = new Label();
         Canvas enemyCanvas = new Canvas(300, 300);
         enemyBox.getChildren().addAll(enemyCanvas, enemyLabel);
-        enemy = new BattleShipCanvas(enemyCanvas, 10);
+        enemy = new BattleShipCanvas(enemyCanvas, 10, gameLogic);
 
         VBox infoBox = new VBox();
         infoBox.setAlignment(Pos.CENTER);
@@ -140,15 +146,14 @@ public class GameViewManager {
     }
 
     public void finishGame() {
-        gameLogic.getLocalEnemy().setVisible(true);
-
+        gameLogic.getEnemy().setVisible(true);
         refreshBoards();
         player.getSetupCanvas().setOnMouseClicked(mouseEvent -> {
         });
         enemy.getSetupCanvas().setOnMouseClicked(mouseEvent -> {
         });
 
-        if (gameLogic.getPlayer().field.allShipsSunk()) {
+        if (gameLogic.getPlayer().allShipsSunk()) {
             gameInfo.setText("YOU LOSE");
         } else {
             gameInfo.setText("YOU WON");
@@ -162,16 +167,16 @@ public class GameViewManager {
         gamePane.setBackground(UIConstants.BASE_BACKGROUND);
         try {
             gameLogic.networkStart();
-            player.initializeWithPlayer(gameLogic.getPlayer(), gameLogic.getEnemy(), gameLogic);
-            enemy.initializeWithPlayer(gameLogic.getEnemy(), gameLogic.getPlayer(), gameLogic);
+            player.initializeWithPlayer(gameLogic.getPlayer(), gameLogic.getEnemy());
+            enemy.initializeWithPlayer(gameLogic.getEnemy(), gameLogic.getPlayer());
 
             playerLabel.setText(gameLogic.getPlayer().name);
             enemyLabel.setText(gameLogic.getEnemy().name);
             gameInfo.setText("PLACE SHIPS");
 
         } catch (IOException e){
-
+            e.printStackTrace();
         }
-
+        stage.show();
     }
 }

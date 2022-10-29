@@ -12,6 +12,6 @@ public class BoardTest {
         board = new Board();
         board.boardConstruction(true, 8);
 
-        Assertions.assertTrue(board.allShipsSunk());
+        Assertions.assertTrue(board.isVisible());
     }
 }

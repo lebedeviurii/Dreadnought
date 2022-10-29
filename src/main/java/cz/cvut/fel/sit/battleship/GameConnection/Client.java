@@ -1,6 +1,7 @@
 package cz.cvut.fel.sit.battleship.GameConnection;
 
 
+import cz.cvut.fel.sit.battleship.GameField.SquareStatus;
 import cz.cvut.fel.sit.battleship.GameLogic;
 import cz.cvut.fel.sit.battleship.GameUsers.Player;
 
@@ -72,18 +73,34 @@ public class Client implements Runnable {
                 break;
             case PREPARED:
                 LOGGER.log(Level.INFO, "Client is {0},{1}", new Object[]{actionCode, name});
-                gL.changeState(GameState.SETUP);
-                sendToServer(ClientProtocol.BOARD, player.shipsToString());
+                if (player.readyToPlay){
+                    sendToServer(ClientProtocol.BOARD, player.shipsToString());
+                }
                 break;
             case PREPARED_OPPONENT:
                 LOGGER.log(Level.INFO, "Client is {0},{1}", new Object[]{actionCode, name});
                 gL.getEnemy().setupShipsFromString(actionPayload);
-                gL.changeState(GameState.PLAY_1);
-              sendToServer(ClientProtocol.BOARD, player.shipsToString());
+                if (gL.getEnemy().readyToPlay && gL.getPlayer().readyToPlay){
+                    gL.changeState(GameState.PLAY_1);
+                }
                 break;
             case BOARDED1:
                 break;
-            case HIT:
+            case GAME:
+                LOGGER.log(Level.INFO, "Square {0} fired by {1}", new Object[]{actionPayload, name});
+                String[] dot = actionPayload.split(",");
+                int[] coords = new int[dot.length];
+                for(int i = 0;i < dot.length;i++)
+                {
+                    coords[i] = Integer.parseInt(dot[i]);
+                }
+                if (gL.getEnemy().fire(player, coords) == SquareStatus.Miss){
+                    player.clickable = true;
+                }
+                if (gL.getPlayer().allShipsSunk()) {
+                    gL.changeState(GameState.FINISH);
+                }
+                gL.getGameView().refreshBoards();
                 break;
             case QUIT:
                 return false;

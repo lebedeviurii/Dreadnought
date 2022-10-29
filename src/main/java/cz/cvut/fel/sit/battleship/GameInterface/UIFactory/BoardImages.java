@@ -20,7 +20,6 @@ public class BoardImages {
         return switch (square) {
             case 'S' -> SHIP_IMAGE;
             case 'M' -> MISS_IMAGE;
-            case 'W', 'T' -> WATER_IMAGE;
             case 'B' -> HIT_IMAGE;
             default -> WATER_IMAGE;
         };

@@ -12,8 +12,8 @@ import cz.cvut.fel.sit.battleship.ShipTypes.Ship;
 import java.io.IOException;
 
 public class GameLogic {
+
     private final GameViewManager gameView;
-    private int size;
 
     public GameLogic(GameViewManager gameViewManager) {
         this.gameView = gameViewManager;
@@ -23,18 +23,16 @@ public class GameLogic {
         return player;
     }
 
-    public Player getLocalEnemy() {
-        return localEnemy;
+    public GameViewManager getGameView() {
+        return gameView;
     }
 
     private Player player;
-    private Player localEnemy;
 
     private Player enemy;
     private AI ai;
 
     public Ship[] playersShips;
-    public Ship[] aiShips;
     public Ship[] enemyShips;
 
     private GameState gameState;
@@ -43,18 +41,17 @@ public class GameLogic {
         GameMode gamemode = new GameMode();
         gamemode.getPropValues(mode);
 
-        size = gamemode.getSize();
         playersShips = cloneShips(gamemode.ships);
-        aiShips = cloneShips(gamemode.ships);
+        enemyShips = cloneShips(gamemode.ships);
 
         player = new Player("YOU", playersShips, true, gamemode.size);
 
-        localEnemy = new Player("OPPONENT", aiShips, false, gamemode.size);
+        enemy = new Player("OPPONENT", enemyShips, false, gamemode.size);
 
-        ai = new AI(localEnemy, player.field);
+        ai = new AI(enemy, player.field);
 
         try {
-            ai.placeAllShips(aiShips);
+            ai.placeAllShips(enemyShips);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -83,24 +80,22 @@ public class GameLogic {
         var orientation = player.getField().getCurrentOrientationHorizontal() ?
                 Orientation.horizontal : Orientation.vertical;
         ship.setOrientation(orientation);
-        ship.setFstSquare(ship.board.getPosition(coordinates[0], coordinates[1]));
+        ship.setFstSquare(ship.board.getSquare(coordinates[0], coordinates[1]));
 
         return ship.placeShip();
     }
 
-    public void playerAIFire(Player player, int[] position) {
-        switch (player.fire(localEnemy.field, localEnemy, position)) {
+    public void playerAIFire(int[] position) {
+        switch (this.player.fire(enemy, position)) {
             case BombedShip:
-                if (localEnemy.field.allShipsSunk())
+                if (enemy.allShipsSunk())
                     changeState(GameState.FINISH);
             case None:
                 return;
         }
-
         changeState(GameState.PLAY_2);
-
-        ai.fireAI(player);
-        if (player.field.allShipsSunk()) {
+        ai.fireAI(this.player);
+        if (player.allShipsSunk()) {
             changeState(GameState.FINISH);
             return;
         }
@@ -110,7 +105,9 @@ public class GameLogic {
     public void changeState(GameState gameState){
         switch (gameState) {
             case PLAY_1 -> {
-                gameView.startGame();
+                switch (this.gameState){
+                    case INTRO, CONNECTION, SETUP -> gameView.startGame();
+                }
                 gameView.refreshBoards();
             }
             case PLAY_2 -> gameView.refreshBoards();
@@ -128,12 +125,11 @@ public class GameLogic {
         GameMode gamemode = new GameMode();
         gamemode.getPropValues(String.valueOf(Mode.standard));
 
-        size = gamemode.getSize();
         playersShips = cloneShips(gamemode.ships);
         enemyShips = cloneShips(gamemode.ships);
         player = new Player("YOU", playersShips, true, gamemode.size);
         enemy = new Player("OPPONENT", enemyShips, false, gamemode.size);
 
-        changeState(GameState.CONNECTION);
+        changeState(GameState. CONNECTION);
     }
 }

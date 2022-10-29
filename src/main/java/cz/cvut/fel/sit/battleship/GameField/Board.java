@@ -4,7 +4,9 @@ public class Board {
     public int sideSize;
     private Square[][] board;
     private boolean visible;
+
     public boolean currentOrientationHorizontal = true;
+
     public void setSideSize(int sideSize) {
         this.sideSize = sideSize;
     }
@@ -45,8 +47,6 @@ public class Board {
         }
     }
 
-    public void boardSetting(String[][] statuses) {}
-
     public boolean getCurrentOrientationHorizontal() {
         return currentOrientationHorizontal;
     }
@@ -56,7 +56,7 @@ public class Board {
     }
 
     //Getter position
-    public Square getPosition(int x, int y) {
+    public Square getSquare(int x, int y) {
         if (x < sideSize && x >= 0 && y < sideSize && y >= 0 && board != null && board[x][y] != null){
             return board[x][y];
         }
@@ -69,17 +69,6 @@ public class Board {
         }
         return SquareStatus.None;
     }
-
-
-    //Check for any alive ships
-    public boolean allShipsSunk() {
-        for (int i = 0; i < sideSize; i++)
-            for (int j = 0; j < sideSize; j++)
-                if (board[i][j].getStatus() == SquareStatus.Ship)
-                    return false;
-        return true;
-    }
-
 
     public String boardToString() {
         String bS = " ";

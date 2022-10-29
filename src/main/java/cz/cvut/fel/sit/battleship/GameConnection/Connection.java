@@ -82,7 +82,7 @@ public class Connection implements Runnable{
                     sendToClient(ServerProtocol.REJECTED, "");
                 }
                 break;
-            case BOARD:
+            case  BOARD:
                 server.boardSetUp(actionPayload, this);
                 LOGGER.log(Level.INFO,"Received ships by {0}", new Object[]{name});
                 break;
