@@ -2,7 +2,7 @@
 
 Hra pro semestrální projekt předmětu PJV.
 
-Vývojáři
+##Vývojáři
 
 Iurii Lebedev (Technokaz)
 
