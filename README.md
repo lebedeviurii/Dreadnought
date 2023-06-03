@@ -1,6 +1,6 @@
 # DREADNOUGHT
 
-Hra pro semestrální projekt předmětu PJV.
+Hra pro semestrální projekt předmětu PJV. (public ver.)
 
 ## Vývojáři
 
